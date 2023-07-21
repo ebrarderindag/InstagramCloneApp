@@ -25,6 +25,7 @@ import com.example.instagramcloneapp.Routes
 
 @Composable
 fun UserListItem(user: User,navController: NavHostController){
+
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)

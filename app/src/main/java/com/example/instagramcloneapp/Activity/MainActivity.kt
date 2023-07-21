@@ -1,4 +1,5 @@
-package com.example.instagramcloneapp
+package com.example.instagramcloneapp.Activity
+
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.instagramcloneapp.Screen.LoginPage
 import com.example.instagramcloneapp.Screen.ScreenMain
 import com.example.instagramcloneapp.ui.theme.InstagramCloneAppTheme
 
@@ -21,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ScreenMain()
+                    DefaultPreview()
                 }
             }
         }
@@ -33,5 +35,8 @@ class MainActivity : ComponentActivity() {
 fun DefaultPreview() {
     InstagramCloneAppTheme {
         ScreenMain()
+
+
     }
 }
+

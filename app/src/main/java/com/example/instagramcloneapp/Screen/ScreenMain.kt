@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.instagramcloneapp.Activity.HomeActivity
+import com.example.instagramcloneapp.Activity.OptionMenu
 import com.example.instagramcloneapp.Component.AlertDialog
 
 import com.example.instagramcloneapp.Routes
@@ -34,6 +36,7 @@ fun ScreenMain(){
         composable(Routes.ImageDetail.route) {
             ImageDetail( navController = navController)
         }
+
     }
 }
 

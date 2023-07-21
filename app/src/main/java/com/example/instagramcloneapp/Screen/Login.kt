@@ -1,6 +1,5 @@
 package com.example.instagramcloneapp.Screen
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -44,7 +44,7 @@ fun LoginPage(navController: NavHostController) {
 
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
-
+        val context = LocalContext.current
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp))
 
@@ -67,9 +67,9 @@ fun LoginPage(navController: NavHostController) {
             Button(
                 onClick = {
                     println(username.value.text)
-                    if (username.value.text == "Ebrar" && password.value.text == "1234" ){navController.navigate(Routes.HomePage.route) }
+                    if (username.value.text == "e" && password.value.text == "1" ){navController.navigate(Routes.HomePage.route) }
                           else{
-
+                              Toast.makeText(context, "Kullanıcı adı veya şifre yanlış", Toast.LENGTH_SHORT).show()
                           }},
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
@@ -95,5 +95,7 @@ fun LoginPage(navController: NavHostController) {
         }
     }
 }
+
+
 
 
