@@ -1,5 +1,7 @@
 package com.example.instagramcloneapp.Screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +30,7 @@ import androidx.navigation.NavHostController
 import com.example.instagramcloneapp.Routes
 
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginPage(navController: NavHostController) {
@@ -41,6 +44,7 @@ fun LoginPage(navController: NavHostController) {
 
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
+
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp))
 
@@ -61,7 +65,12 @@ fun LoginPage(navController: NavHostController) {
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
-                onClick = {navController.navigate(Routes.HomePage.route) },
+                onClick = {
+                    println(username.value.text)
+                    if (username.value.text == "Ebrar" && password.value.text == "1234" ){navController.navigate(Routes.HomePage.route) }
+                          else{
+
+                          }},
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -74,7 +83,7 @@ fun LoginPage(navController: NavHostController) {
         Spacer(modifier = Modifier.height(10.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
-                onClick = { navController.navigate(Routes.SignUp.route) },
+                onClick = {navController.navigate(Routes.SignUp.route)},
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,3 +95,5 @@ fun LoginPage(navController: NavHostController) {
         }
     }
 }
+
+

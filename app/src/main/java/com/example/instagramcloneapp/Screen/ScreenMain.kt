@@ -6,7 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.instagramclone.data.User
+import com.example.instagramcloneapp.Component.AlertDialog
+
 import com.example.instagramcloneapp.Routes
 
 @Composable
@@ -19,13 +20,12 @@ fun ScreenMain(){
         composable(Routes.Login.route) {
             LoginPage(navController = navController)
         }
+        composable(Routes.AlertDialogSample.route) {
+            AlertDialog(navController = navController)
+        }
 
         composable(Routes.SignUp.route) {
             SignUp(navController = navController)
-        }
-
-        composable(Routes.ForgotPassword.route) { navBackStack ->
-            ForgotPassword(navController = navController)
         }
 
         composable(Routes.HomePage.route) {
