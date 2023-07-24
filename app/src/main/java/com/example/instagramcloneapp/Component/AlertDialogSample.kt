@@ -1,6 +1,7 @@
 package com.example.instagramcloneapp.Component
 
-import androidx.compose.animation.AnimatedVisibility
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,21 +11,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-
-import com.example.instagramcloneapp.Routes
-import com.example.instagramcloneapp.Screen.SignUpContent
+import androidx.compose.ui.platform.LocalContext
+import com.example.instagramcloneapp.Activity.LoginActivity
 
 
 @Composable
-fun SignUp(navController: NavHostController) {
+fun AlertDialogSample_fun() {
     Box(modifier = Modifier.fillMaxSize()) {
-        AlertDialog(navController = navController)
+        AlertDialog()
     }
 }
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun AlertDialog(navController: NavHostController) {
+fun AlertDialog() {
+    val context = LocalContext.current
+
     MaterialTheme {
+
         Column {
 
                 AlertDialog(
@@ -41,11 +44,15 @@ fun AlertDialog(navController: NavHostController) {
                     confirmButton = {
                         Button(
                             onClick ={
+
+                                context.startActivity(Intent(context, LoginActivity::class.java))
+
+                                /*
                                 navController.navigate("Login"){
                                     popUpTo(navController.graph.id){
                                         inclusive = true
                                     }
-                                }
+                                }*/
                             })
                         {
                             Text("OK")

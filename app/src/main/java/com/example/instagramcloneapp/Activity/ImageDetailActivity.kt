@@ -1,5 +1,8 @@
-package com.example.instagramcloneapp.Screen
+package com.example.instagramcloneapp.Activity
 
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -26,14 +29,24 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramclone.data.User
-import com.example.instagramcloneapp.data.DataProvider.user
+import com.example.instagramcloneapp.R
+import com.example.instagramcloneapp.data.DataProvider
 
+class ImageDetailActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_image_detail)
+        setContent {
+            ImageDetail()
+        }
+    }
+}
 
 @Composable
 fun ImageDetail() {
 
     Box(modifier = Modifier.fillMaxSize()) {
-        ProfileScreen(user = user)
+        ProfileScreen(user = DataProvider.user)
     }
 }
 

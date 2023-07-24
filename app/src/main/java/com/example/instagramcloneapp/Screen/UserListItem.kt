@@ -1,5 +1,8 @@
 package com.example.instagramcloneapp.Screen
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -19,12 +22,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.instagramclone.data.User
-import com.example.instagramcloneapp.Routes
 
+
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun UserListItem(user: User,navController: NavHostController){
+fun UserListItem(user: User){
+
 
     Card(
         modifier = Modifier
@@ -33,27 +37,31 @@ fun UserListItem(user: User,navController: NavHostController){
     ) {
 
         Row (Modifier
-            .clickable { navController.navigate(Routes.ImageDetail.route) }
+            .clickable {
+
+                //bakılacak
+                //ImageDetail()
+            }
             .align(Alignment.CenterHorizontally)){
             UserImage(user = user)
         }
+
         Row(
             Modifier
             .padding(start = 30.dp))
         {
-
             Text(text = "@" + "${user.title}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
         }
-
 
         Row(
             Modifier
             .padding(start = 30.dp,end= 16.dp, top = 16.dp, bottom = 20.dp) )
         {
-
             Text(text = "----Text----",style = MaterialTheme.typography.titleMedium, fontSize = 16.sp)
         }
     }
+
+
 }
 
 @Composable
