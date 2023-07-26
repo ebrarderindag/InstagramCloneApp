@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -64,7 +65,10 @@ class MainActivity : ComponentActivity() {
 fun OptionMenu(){
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-Column {
+    val activity = (LocalContext.current as? MainActivity)
+
+
+
     TopAppBar(
         title = { Text(text = "Instagram") },
         actions =
@@ -83,15 +87,21 @@ Column {
                 DropdownMenuItem(
                     text = { Text("Add Post") },
                     onClick = {
+                        val intent = Intent(context, AddPostActivity::class.java)
+                        context.startActivity(intent)
 
-                        val intent = Intent(this@MainActivity, AddPostActivity::class.java)
-                        startActivity(intent)
-                        //Toast.makeText(context, "Add Post", Toast.LENGTH_SHORT).show()
+
                     }
                 )
                 DropdownMenuItem(
                     text = { Text("Logout") },
-                    onClick = { Toast.makeText(context, "Logout", Toast.LENGTH_SHORT).show() }
+                    onClick = {
+                        val intent = Intent(context, LoginActivity::class.java)
+                        context.startActivity(intent)
+
+                        activity?.finish()
+
+                    }
                 )
 
             }
@@ -103,7 +113,7 @@ Column {
 }
 
 
-}
+
 
 @Preview(showBackground = true)
 @Composable

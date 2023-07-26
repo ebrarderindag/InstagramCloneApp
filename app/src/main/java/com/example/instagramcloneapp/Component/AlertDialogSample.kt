@@ -2,6 +2,7 @@ package com.example.instagramcloneapp.Component
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,18 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.instagramcloneapp.Activity.LoginActivity
+import com.example.instagramcloneapp.Activity.SignUpActivity
 
 
-@Composable
-fun AlertDialogSample_fun() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        AlertDialog()
-    }
-}
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun AlertDialog() {
-    val context = LocalContext.current
+    val activity = (LocalContext.current as? SignUpActivity)
 
     MaterialTheme {
 
@@ -44,15 +40,7 @@ fun AlertDialog() {
                     confirmButton = {
                         Button(
                             onClick ={
-
-                                context.startActivity(Intent(context, LoginActivity::class.java))
-
-                                /*
-                                navController.navigate("Login"){
-                                    popUpTo(navController.graph.id){
-                                        inclusive = true
-                                    }
-                                }*/
+                                activity?.finish()
                             })
                         {
                             Text("OK")

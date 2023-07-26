@@ -1,10 +1,11 @@
 package com.example.instagramcloneapp.Activity
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,15 +26,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramcloneapp.Component.AlertDialog
-import com.example.instagramcloneapp.Component.AlertDialogSample_fun
 import com.example.instagramcloneapp.R
+import com.example.instagramcloneapp.Component.AlertDialog
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class SignUpActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpContent(){
+
     Column(
         modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 200.dp),
         verticalArrangement = Arrangement.Center,
@@ -59,7 +61,8 @@ fun SignUpContent(){
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
         val password2 = remember { mutableStateOf(TextFieldValue()) }
-        var isClicked by mutableStateOf(false)
+        var isClicked by remember { mutableStateOf(false) }
+
 
 
         Text(text = "Sign Up", style = TextStyle(fontSize = 40.sp))
@@ -91,18 +94,25 @@ fun SignUpContent(){
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    //bakılacak
-                    //AlertDialog()
+                    if (password.value == password2.value && password != null) {
+
+                        isClicked = true
+
+                    }
+
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
 
-            ){
+            ) {
                 Text(text = "Save")
-            }
 
+            }
+            if (isClicked) {
+                AlertDialog()
+
+            }
         }
-    }
-}
+    }}

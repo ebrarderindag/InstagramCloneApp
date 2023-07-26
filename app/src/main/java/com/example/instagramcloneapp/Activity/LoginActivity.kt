@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import com.example.instagramcloneapp.R
 
 class LoginActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -47,6 +48,8 @@ class LoginActivity : ComponentActivity() {
     @Preview
     @Composable
     fun LoginPage() {
+
+        val activity = (LocalContext.current as? LoginActivity)
         Column(
             modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 200.dp),
             verticalArrangement = Arrangement.Center,
@@ -82,7 +85,7 @@ class LoginActivity : ComponentActivity() {
 
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
-
+                            activity?.finish()
                         }
                         else{
                             Toast.makeText(context, "Kullanıcı adı veya şifre yanlış", Toast.LENGTH_SHORT).show()

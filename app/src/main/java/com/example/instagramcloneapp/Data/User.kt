@@ -4,7 +4,8 @@ import java.io.Serializable
 
 data class User(
     val id : Int,
-    val title: String,
+    val username: String,
     val description: String,
-    val userImageId: Int = 0
+    val userImageId: Int = 0,
+    val password: String
 ) : Serializable

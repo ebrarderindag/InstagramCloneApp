@@ -1,7 +1,6 @@
 package com.example.instagramcloneapp.Screen
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,16 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramclone.data.User
+import com.example.instagramcloneapp.Activity.ImageDetailActivity
 
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun UserListItem(user: User){
-
+    val context = LocalContext.current
 
     Card(
         modifier = Modifier
@@ -38,9 +39,8 @@ fun UserListItem(user: User){
 
         Row (Modifier
             .clickable {
-
-                //bakılacak
-                //ImageDetail()
+                val intent = Intent(context, ImageDetailActivity()::class.java)
+                context.startActivity(intent)
             }
             .align(Alignment.CenterHorizontally)){
             UserImage(user = user)
@@ -50,7 +50,7 @@ fun UserListItem(user: User){
             Modifier
             .padding(start = 30.dp))
         {
-            Text(text = "@" + "${user.title}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
+            Text(text = "@" + "${user.username}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
         }
 
         Row(

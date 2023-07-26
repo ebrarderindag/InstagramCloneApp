@@ -1,7 +1,7 @@
 package com.example.instagramcloneapp.Activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -32,7 +32,7 @@ import com.example.instagramclone.data.User
 import com.example.instagramcloneapp.R
 import com.example.instagramcloneapp.data.DataProvider
 
-class ImageDetailActivity : AppCompatActivity() {
+class ImageDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
@@ -100,7 +100,7 @@ private fun ProfileContent(user: User, containerHeight: Dp){
 private fun Title(user: User){
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
-            text = user.title,
+            text = user.username,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp

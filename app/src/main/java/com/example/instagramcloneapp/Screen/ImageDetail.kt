@@ -87,7 +87,7 @@ private fun ProfileContent(user: User, containerHeight: Dp){
 private fun Title(user: User){
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
-            text = user.title,
+            text = user.username,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp

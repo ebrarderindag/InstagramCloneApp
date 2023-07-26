@@ -7,7 +7,7 @@ import com.example.instagramcloneapp.R
 object DataProvider {
     val user = User(
         id = 1,
-        title = "Monty",
+        username = "Monty",
         description = "asdfg",
         userImageId = R.drawable.deneme1
     )
@@ -16,13 +16,13 @@ object DataProvider {
         user,
         User(
             id = 2,
-            title = "Jubilee",
+            username = "Jubilee",
             description = "asdfg",
             userImageId = R.drawable.deneme1
         ),
         User(
             id = 3,
-            title = "Beezy",
+            username = "Beezy",
             description = "asdfg",
             userImageId = R.drawable.deneme2
         )
