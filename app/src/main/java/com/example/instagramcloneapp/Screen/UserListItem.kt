@@ -50,7 +50,7 @@ fun UserListItem(user: User){
             Modifier
             .padding(start = 30.dp))
         {
-            Text(text = "@" + "${user.username}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
+            Text(text = "@" + "${user.nickname}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
         }
 
         Row(
@@ -67,7 +67,7 @@ fun UserListItem(user: User){
 @Composable
 private fun UserImage(user: User){
     Image(
-        painter = painterResource(id = user.userImageId),
+        painter = painterResource(id = user.ImageId),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier

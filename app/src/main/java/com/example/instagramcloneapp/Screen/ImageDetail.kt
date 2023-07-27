@@ -67,7 +67,7 @@ private fun ProfileHeader(
         modifier = Modifier
             .heightIn(max = containerHeight / 2)
             .fillMaxWidth(),
-        painter = painterResource(id = user.userImageId),
+        painter = painterResource(id = user.ImageId),
         contentScale = ContentScale.Crop,
         contentDescription = null
     )
@@ -87,7 +87,7 @@ private fun ProfileContent(user: User, containerHeight: Dp){
 private fun Title(user: User){
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
-            text = user.username,
+            text = user.nickname,
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp

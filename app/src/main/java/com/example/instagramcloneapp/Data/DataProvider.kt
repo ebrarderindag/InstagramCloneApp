@@ -5,26 +5,29 @@ import com.example.instagramclone.data.User
 import com.example.instagramcloneapp.R
 
 object DataProvider {
+    /*
     val user = User(
-        id = 1,
-        username = "Monty",
+        ID = 1,
+        nickname = "Monty",
         description = "asdfg",
-        userImageId = R.drawable.deneme1
+        ImageId = R.drawable.deneme1
     )
 
     val userList = listOf(
         user,
         User(
-            id = 2,
-            username = "Jubilee",
+            ID = 2,
+            nickname = "Jubilee",
             description = "asdfg",
-            userImageId = R.drawable.deneme1
+            ImageId = R.drawable.deneme1
         ),
         User(
-            id = 3,
-            username = "Beezy",
+            ID = 3,
+            nickname = "Beezy",
             description = "asdfg",
-            userImageId = R.drawable.deneme2
+            ImageId = R.drawable.deneme2
         )
     )
+    */
+
 }

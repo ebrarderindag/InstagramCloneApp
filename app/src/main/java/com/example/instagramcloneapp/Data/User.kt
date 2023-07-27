@@ -1,11 +1,13 @@
 package com.example.instagramclone.data
 
+import com.example.instagramcloneapp.Data.PostList
 import java.io.Serializable
 
 data class User(
-    val id : Int,
-    val username: String,
-    val description: String,
-    val userImageId: Int = 0,
-    val password: String
+
+    val ID : Int,
+    val nickname: String,
+    val password: String,
+    var PostList : ArrayList<PostList> = arrayListOf()
+
 ) : Serializable
