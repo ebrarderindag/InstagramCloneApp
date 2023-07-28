@@ -1,8 +1,5 @@
-package com.example.instagramcloneapp.data
+package com.example.instagramcloneapp.Data
 
-
-import com.example.instagramclone.data.User
-import com.example.instagramcloneapp.R
 
 object DataProvider {
     /*

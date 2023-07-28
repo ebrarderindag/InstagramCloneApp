@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramclone.data.User
+import com.example.instagramcloneapp.Data.User
 import com.example.instagramcloneapp.Activity.ImageDetailActivity
 
 
@@ -50,7 +50,7 @@ fun UserListItem(user: User){
             Modifier
             .padding(start = 30.dp))
         {
-            Text(text = "@" + "${user.nickname}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
+            Text(text = "@" + "${user.information.nickname}",style = MaterialTheme.typography.titleMedium, fontSize = 30.sp)
         }
 
         Row(
@@ -67,7 +67,7 @@ fun UserListItem(user: User){
 @Composable
 private fun UserImage(user: User){
     Image(
-        painter = painterResource(id = user.ImageId),
+        painter = painterResource(id = user.information.ID), //id = user.ImageId
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
