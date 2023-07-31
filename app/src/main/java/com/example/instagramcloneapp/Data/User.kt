@@ -7,8 +7,9 @@ data class User(
     var PostList : ArrayList<PostList> = arrayListOf()
 
 ) : Serializable{
-    data class Information(val ID : Int,
-                           val nickname: String,
-                           val password: String)
+    data class Information(val Id : Int,
+                           val Password: String,
+                           val Username: String
+                           ) : Serializable
 }
 

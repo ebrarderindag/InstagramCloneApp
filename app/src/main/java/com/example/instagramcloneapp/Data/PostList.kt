@@ -4,8 +4,5 @@ import java.io.Serializable
 
 data class PostList(
 
-    val description: String,
-    val ImageId: Int = 0,
-    val URL : String
-
+    var Post : ArrayList<Post> = arrayListOf()
     ) : Serializable

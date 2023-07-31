@@ -32,22 +32,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramcloneapp.Data.User
+import com.example.instagramcloneapp.Data.UserList
 import com.example.instagramcloneapp.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.values
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setContent(){
-            val user = User(User.Information(1,"1","e"))
-            readData(user = user)
+        setContent() {
+            val user = User(User.Information(1, "1", "e"))
+            readData()
             LoginPage()
         }
     }
@@ -91,15 +94,19 @@ class LoginActivity : ComponentActivity() {
                 Button(
                     onClick = {
                         println(username.value.text)
-                        if (username.value.text == "e" && password.value.text == "1" ){
+                        if (username.value.text == "e" && password.value.text == "1") {
 
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                             activity?.finish()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Kullanıcı adı veya şifre yanlış",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                        else{
-                            Toast.makeText(context, "Kullanıcı adı veya şifre yanlış", Toast.LENGTH_SHORT).show()
-                        }},
+                    },
                     shape = RoundedCornerShape(50.dp),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -121,20 +128,33 @@ class LoginActivity : ComponentActivity() {
                         .fillMaxWidth()
                         .height(50.dp)
 
-                ){
+                ) {
                     Text(text = "Sign Up")
                 }
             }
         }
     }
 
-    private fun readData(user : User){
+    private fun readData() {
 
-        var database : DatabaseReference = FirebaseDatabase.getInstance().getReference("UserList")
-        database.child("User1").addValueEventListener(object:
+        val database: DatabaseReference = Firebase.database.reference
+
+
+
+        database.get().addOnSuccessListener { snapshot ->
+            snapshot.getValue(UserList::class.java)?.let {
+               val userList = it.userList
+
+                println(userList)
+            }
+        }
+
+
+/*
+        database.addValueEventListener(object:
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot){
-                val user1 = dataSnapshot.getValue(User::class.java)
+                val user1 = dataSnapshot.getValue(UserList::class.java)
                 println("--------------------")
                 println("Database::::$user1")
 
@@ -145,7 +165,7 @@ class LoginActivity : ComponentActivity() {
                 println("--------------------")
             }
 
-        })
+        })*/
 
         println("--------------------")
 
