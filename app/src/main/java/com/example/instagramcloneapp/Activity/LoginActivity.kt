@@ -1,7 +1,9 @@
 package com.example.instagramcloneapp.Activity
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,14 +46,20 @@ import com.google.firebase.database.ktx.values
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : ComponentActivity() {
-
+    val firebaseDataBase = FirebaseDatabase.getInstance()
+    val databaseRef = firebaseDataBase.getReference("UserList")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+
+
         setContent() {
-            val user = User(User.Information(1, "1", "e"))
+            //val user = User(User.Information(1, "1", "e"))
             readData()
             LoginPage()
+
+
         }
     }
 
@@ -93,12 +101,14 @@ class LoginActivity : ComponentActivity() {
             Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                 Button(
                     onClick = {
-                        println(username.value.text)
-                        if (username.value.text == "e" && password.value.text == "1") {
+
+                        if (username.value.text.isNotEmpty() && password.value.text.isNotEmpty()) {
+
+                            //readData(username.value.text, password.value.text)
 
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            activity?.finish()
+                            //startActivity(intent)
+                            //activity?.finish()
                         } else {
                             Toast.makeText(
                                 context,
@@ -135,40 +145,35 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
+
     private fun readData() {
 
-        val database: DatabaseReference = Firebase.database.reference
 
-
-
-        database.get().addOnSuccessListener { snapshot ->
-            snapshot.getValue(UserList::class.java)?.let {
-               val userList = it.userList
-
-                println(userList)
-            }
-        }
-
-
-/*
-        database.addValueEventListener(object:
-            ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot){
-                val user1 = dataSnapshot.getValue(UserList::class.java)
-                println("--------------------")
+        val dat = databaseRef.child("User1/Information")
+        dat.child("Username").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val user1 = dataSnapshot.getValue(String::class.java)
                 println("Database::::$user1")
-
             }
-
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
                 println("--------------------")
             }
 
-        })*/
+        })
 
-        println("--------------------")
 
+
+        /*println("Database: " + database.child( username).child("Information").child("Password"))
+database.child( username).child("Information").child("Password").get().addOnSuccessListener {
+
+    val password_data = it.value
+
+    println("password data = $password_data")
+
+
+}.addOnFailureListener{
+    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+}*/
     }
-
 }
