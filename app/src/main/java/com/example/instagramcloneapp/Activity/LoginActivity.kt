@@ -42,12 +42,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.database.ktx.values
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
 class LoginActivity : ComponentActivity() {
-    val firebaseDataBase = FirebaseDatabase.getInstance()
-    val databaseRef = firebaseDataBase.getReference("UserList")
+    private lateinit var database: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -148,32 +151,70 @@ class LoginActivity : ComponentActivity() {
 
     private fun readData() {
 
+        database = Firebase.database.reference
 
-        val dat = databaseRef.child("User1/Information")
-        dat.child("Username").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user1 = dataSnapshot.getValue(String::class.java)
-                println("Database::::$user1")
+
+
+        database.get().addOnSuccessListener{snapshot ->
+            snapshot.getValue(UserList::class.java)?.let { userList ->
+
+
+
             }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-                println("--------------------")
-            }
-
-        })
+        }.addOnFailureListener{
 
 
+        }
+        /*
+         val dataListener = object : ValueEventListener {
+             override fun onDataChange(snapshot: DataSnapshot) {
+                 val data  = snapshot.getValue(UserList::class.java)
+                 println("MyData ->" + data?.userList.toString())
 
-        /*println("Database: " + database.child( username).child("Information").child("Password"))
-database.child( username).child("Information").child("Password").get().addOnSuccessListener {
+                 if (data != null) {
+                     for (x in data.userList){
+                         println(x)
+                     }
+                 }
 
-    val password_data = it.value
+             }
 
-    println("password data = $password_data")
+             override fun onCancelled(error: DatabaseError) {
+                 TODO("Not yet implemented")
+             }
 
 
-}.addOnFailureListener{
-    Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-}*/
+         }
+        database.addValueEventListener(dataListener)
+*/
+
+        /*
+
+               val dat = databaseRef.child("User1/Information")
+               dat.child("Username").addValueEventListener(object : ValueEventListener {
+                   override fun onDataChange(dataSnapshot: DataSnapshot) {
+                       val user1 = dataSnapshot.getValue(String::class.java)
+                       println("Database::::$user1")
+                   }
+                   override fun onCancelled(error: DatabaseError) {
+                       TODO("Not yet implemented")
+                       println("--------------------")
+                   }
+
+               })
+
+
+
+              println("Database: " + database.child( username).child("Information").child("Password"))
+       database.child( username).child("Information").child("Password").get().addOnSuccessListener {
+
+           val password_data = it.value
+
+           println("password data = $password_data")
+
+
+       }.addOnFailureListener{
+           Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+       }*/
     }
 }

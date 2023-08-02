@@ -1,7 +1,8 @@
 package com.example.instagramcloneapp.Data
 
-import java.io.Serializable
+import com.google.gson.annotations.SerializedName
 
 data class UserList(
-    var userList : ArrayList<User> = arrayListOf()
-) : Serializable
+    @SerializedName("User1")
+    var userList: ArrayList<User> = arrayListOf()
+)
