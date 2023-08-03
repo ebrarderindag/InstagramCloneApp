@@ -31,9 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.HomeActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true"

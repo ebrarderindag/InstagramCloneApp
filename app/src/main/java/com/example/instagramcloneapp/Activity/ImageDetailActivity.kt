@@ -13,7 +13,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.example.instagramcloneapp.Data.User
 import com.example.instagramcloneapp.R
 
 class ImageDetailActivity : ComponentActivity() {
@@ -36,7 +35,7 @@ fun ImageDetail() {
 
 
 @Composable
-fun ProfileScreen(user: User){
+fun ProfileScreen(){
     val scrollState  = rememberScrollState()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -58,7 +57,7 @@ fun ProfileScreen(user: User){
 
 private fun ProfileHeader(
 
-    user: User,
+ //   user: User,
     containerHeight: Dp
 ){
     /*
@@ -73,7 +72,7 @@ private fun ProfileHeader(
 }
 
 @Composable
-private fun ProfileContent(user: User, containerHeight: Dp){
+private fun ProfileContent( containerHeight: Dp){
     /*
     Column {
         //TODO:
@@ -85,7 +84,7 @@ private fun ProfileContent(user: User, containerHeight: Dp){
 }
 
 @Composable
-private fun Title(user: User){
+private fun Title(){
     /*
     Column(modifier = Modifier.padding(16.dp)) {
         Text(

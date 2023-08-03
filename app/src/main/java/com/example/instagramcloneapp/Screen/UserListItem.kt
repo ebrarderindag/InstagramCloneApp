@@ -1,3 +1,4 @@
+/*
 package com.example.instagramcloneapp.Screen
 
 import android.annotation.SuppressLint
@@ -22,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramcloneapp.Data.User
 import com.example.instagramcloneapp.Activity.ImageDetailActivity
 
 
@@ -75,4 +75,4 @@ private fun UserImage(user: User){
             .size(300.dp)
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
     )
-}
+}*/

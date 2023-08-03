@@ -1,9 +1,7 @@
 package com.example.instagramcloneapp.Activity
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,21 +31,14 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramcloneapp.Data.User
-import com.example.instagramcloneapp.Data.UserList
+import com.example.instagramcloneapp.Data.DatabaseModel
 import com.example.instagramcloneapp.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.database.ktx.values
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class LoginActivity : ComponentActivity() {
     private lateinit var database: DatabaseReference
@@ -106,7 +97,8 @@ class LoginActivity : ComponentActivity() {
                     onClick = {
 
                         if (username.value.text.isNotEmpty() && password.value.text.isNotEmpty()) {
-
+                            // for()
+                            //if ()
                             //readData(username.value.text, password.value.text)
 
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -150,43 +142,39 @@ class LoginActivity : ComponentActivity() {
 
 
     private fun readData() {
+        database = Firebase.database.getReference("")
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val data  = snapshot.getValue(DatabaseModel::class.java)!!
 
-        database = Firebase.database.reference
+                Toast.makeText(applicationContext, data.Users?.get(0)?.Information?.UserName,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, data.Field,Toast.LENGTH_LONG).show()
 
 
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
+        /*
         database.get().addOnSuccessListener{snapshot ->
-            snapshot.getValue(UserList::class.java)?.let { userList ->
 
-
+            snapshot.getValue(DataModel::class.java)?.let { it ->
+                //DataSnapshot { key = null, value = {UserList={Users={0={PostList={0={Description=defaultText, ID=1, URL=testUrl}}, Information={UserName=TestUser, ID=1, Password=1}}}}} }
+               val data = it.userList
+                println("data= $data")
 
             }
         }.addOnFailureListener{
 
+            println("fail")
 
         }
-        /*
-         val dataListener = object : ValueEventListener {
-             override fun onDataChange(snapshot: DataSnapshot) {
-                 val data  = snapshot.getValue(UserList::class.java)
-                 println("MyData ->" + data?.userList.toString())
+        */
 
-                 if (data != null) {
-                     for (x in data.userList){
-                         println(x)
-                     }
-                 }
-
-             }
-
-             override fun onCancelled(error: DatabaseError) {
-                 TODO("Not yet implemented")
-             }
-
-
-         }
-        database.addValueEventListener(dataListener)
-*/
 
         /*
 
