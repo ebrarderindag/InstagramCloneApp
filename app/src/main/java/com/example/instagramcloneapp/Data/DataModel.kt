@@ -9,9 +9,9 @@ data class DatabaseModel(
     @SerializedName("Field")
     var Field: String = "",
     @SerializedName("Users")
-    var Users: ArrayList<Users>?
+    var Users: ArrayList<Users>? = arrayListOf()
 ) :Parcelable{
-    constructor():this("Emre", arrayListOf())
+    constructor():this("", arrayListOf())
 }
 @Parcelize
 data class Users(

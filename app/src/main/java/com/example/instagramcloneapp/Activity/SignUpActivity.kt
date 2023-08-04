@@ -1,9 +1,11 @@
 package com.example.instagramcloneapp.Activity
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,13 +32,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramcloneapp.R
 import com.example.instagramcloneapp.Component.AlertDialog
+import com.example.instagramcloneapp.Data.DatabaseModel
+import com.example.instagramcloneapp.Data.Users
+import com.example.instagramcloneapp.R
+
 
 class SignUpActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+
+
+        val dataUsers = intent?.extras?.getParcelableArrayList("data", Users::class.java)
+        println("Data: "+ dataUsers)
         setContent {
             SignUpContent()
 
@@ -60,16 +69,12 @@ fun SignUpContent(){
         val password2 = remember { mutableStateOf(TextFieldValue()) }
         var isClicked by remember { mutableStateOf(false) }
 
-
-
         Text(text = "Sign Up", style = TextStyle(fontSize = 40.sp))
-
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Username") },
             value = username.value,
             onValueChange = { username.value = it })
-
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Password") },
@@ -77,7 +82,6 @@ fun SignUpContent(){
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             onValueChange = { password.value = it })
-
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             label = { Text(text = "Password Again") },
@@ -85,31 +89,28 @@ fun SignUpContent(){
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             onValueChange = { password2.value = it })
-
-
         Spacer(modifier = Modifier.height(10.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
+                    //SignUpControl()
                     if (password.value == password2.value) {
-
                         isClicked = true
-
                     }
-
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-
             ) {
                 Text(text = "Save")
-
             }
             if (isClicked) {
                 AlertDialog()
-
             }
         }
     }}
+
+fun signUpControl(username: String, password: String, password2: String){
+
+}
