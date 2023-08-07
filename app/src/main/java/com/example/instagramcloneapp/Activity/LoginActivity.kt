@@ -31,7 +31,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramcloneapp.Data.DatabaseModel
+import com.example.instagramcloneapp.Data.DataModel
 import com.example.instagramcloneapp.Data.Users
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -43,12 +43,14 @@ import com.google.firebase.ktx.Firebase
 
 class LoginActivity : ComponentActivity() {
     private lateinit var database: DatabaseReference
-    var data: DatabaseModel? = null
+    var data: DataModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             readData()
             LoginPageContent()
+
+
         }
     }
 
@@ -116,11 +118,12 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-    private fun readData() {
+    @Composable
+     fun readData() {
         database = Firebase.database.getReference("")
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.getValue(DatabaseModel::class.java)?.let {
+                snapshot.getValue(DataModel::class.java)?.let {
                     data = it
                 } ?: run {
                     Toast.makeText(this@LoginActivity, "Veri bulunamadı", Toast.LENGTH_LONG).show()
@@ -130,13 +133,14 @@ class LoginActivity : ComponentActivity() {
                 TODO("Not yet implemented")
             }
         })
+
     }
 
     fun loginControl(username: String, password: String, context: Context) {
         if (username.isNotEmpty() && password.isNotEmpty()) {
             for (user in data?.Users!!) {
-                if (user.Information.UserName.equals(username)) {
-                    if (user.Information.Password.equals(password)) {
+                if (user.Information?.UserName.equals(username)) {
+                    if (user.Information?.Password.equals(password)) {
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                         this.finishAffinity()

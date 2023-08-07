@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DatabaseModel(
+data class DataModel(
     @SerializedName("Field")
     var Field: String = "",
     @SerializedName("Users")
     var Users: ArrayList<Users>? = arrayListOf()
-) :Parcelable{
+) : Parcelable {
     constructor():this("", arrayListOf())
 }
 @Parcelize
 data class Users(
     @SerializedName("Information")
-    val Information: Information,
+    val Information: Information? = null,
     @SerializedName("PostList")
-    var PostList: ArrayList<PostList>?
-):Parcelable{
-    constructor():this(Information(), arrayListOf())
+    var PostList: ArrayList<PostList>? = arrayListOf()
+) : Parcelable {
+    constructor() : this(Information(), arrayListOf())
 }
 @Parcelize
 data class Information(
@@ -30,7 +30,8 @@ data class Information(
     val Password: String? = null,
     @SerializedName("UserName")
     val UserName: String? = null
-):Parcelable
+) : Parcelable
+
 @Parcelize
 data class PostList(
     @SerializedName("Description")
@@ -39,4 +40,4 @@ data class PostList(
     val ID: Int? = null,
     @SerializedName("URL")
     val URL: String? = null
-):Parcelable
+) : Parcelable

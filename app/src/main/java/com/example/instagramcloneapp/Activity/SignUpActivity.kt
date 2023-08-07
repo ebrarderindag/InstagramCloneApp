@@ -1,8 +1,10 @@
 package com.example.instagramcloneapp.Activity
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -26,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -33,21 +36,24 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramcloneapp.Component.AlertDialog
-import com.example.instagramcloneapp.Data.DatabaseModel
+import com.example.instagramcloneapp.Data.Information
+import com.example.instagramcloneapp.Data.PostList
 import com.example.instagramcloneapp.Data.Users
-import com.example.instagramcloneapp.R
+import com.example.instagramcloneapp.Extensions.getParcelableArrayCompat
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class SignUpActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-        val dataUsers = intent?.extras?.getParcelableArrayList("data", Users::class.java)
-        println("Data: "+ dataUsers)
+        val dataUsers = intent?.extras?.getParcelableArrayCompat("data", Users::class.java)
+        println("Data: " + dataUsers)
+
         setContent {
-            SignUpContent()
+            SignUpContent(dataUsers)
 
         }
     }
@@ -56,7 +62,7 @@ class SignUpActivity : ComponentActivity() {
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUpContent(){
+fun SignUpContent(dataUsers: ArrayList<Users>?) {
 
     Column(
         modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 200.dp),
@@ -68,6 +74,7 @@ fun SignUpContent(){
         val password = remember { mutableStateOf(TextFieldValue()) }
         val password2 = remember { mutableStateOf(TextFieldValue()) }
         var isClicked by remember { mutableStateOf(false) }
+        val context = LocalContext.current
 
         Text(text = "Sign Up", style = TextStyle(fontSize = 40.sp))
         Spacer(modifier = Modifier.height(20.dp))
@@ -93,10 +100,13 @@ fun SignUpContent(){
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    //SignUpControl()
-                    if (password.value == password2.value) {
-                        isClicked = true
-                    }
+                    signUpControl(
+                        username.value.text,
+                        password.value.text,
+                        password2.value.text,
+                        dataUsers,
+                        context
+                    )
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
@@ -109,8 +119,52 @@ fun SignUpContent(){
                 AlertDialog()
             }
         }
-    }}
+    }
+}
 
-fun signUpControl(username: String, password: String, password2: String){
+fun signUpControl(
+    username: String,
+    password: String,
+    password2: String,
+    dataUsers: ArrayList<Users>?,
+    context: Context
+) {
+
+
+
+    if (username.isNotEmpty() && password.isNotEmpty() && password2.isNotEmpty()) {
+        if (!password.equals(password2)) {
+            for (data in dataUsers!!) {
+                if (!username.equals(data.Information?.UserName)) {
+                    writeData(username, password, context)
+
+                }else {
+                    Toast.makeText(context, "Bu kullanıcı adı kullanılamıyor.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(context, "Girdiğiniz şifreler aynı değil.", Toast.LENGTH_SHORT).show()
+        }
+
+    } else {
+        Toast.makeText(context, "Lutfen bilgilerinizi giriniz.", Toast.LENGTH_SHORT).show()
+    }
+
+}
+
+fun writeData(username: String, password: String, context : Context) {
+    lateinit var database : DatabaseReference
+    var isClicked = false
+
+    database = FirebaseDatabase.getInstance().getReference("Users")
+    val info = Information(ID = 2, Password = password, UserName = username)
+    val postList = ArrayList<PostList>()
+    postList.add(PostList(ID = null, Description = "", URL = ""))
+
+    val user = Users(info,postList)
+    database.setValue(user).addOnSuccessListener(){
+        //Toast.makeText(context, "Kayıt oluşturuldu.", Toast.LENGTH_SHORT).show()
+
+    }
 
 }
