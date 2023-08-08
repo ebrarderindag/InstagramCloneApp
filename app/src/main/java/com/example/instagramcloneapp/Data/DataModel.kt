@@ -6,38 +6,36 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DataModel(
-    @SerializedName("Field")
-    var Field: String = "",
     @SerializedName("Users")
     var Users: ArrayList<Users>? = arrayListOf()
 ) : Parcelable {
-    constructor():this("", arrayListOf())
+    constructor():this(arrayListOf())
 }
 @Parcelize
 data class Users(
-    @SerializedName("Information")
-    val Information: Information? = null,
-    @SerializedName("PostList")
-    var PostList: ArrayList<PostList>? = arrayListOf()
+    @SerializedName("information")
+    val information: Information? = null,
+    @SerializedName("postList")
+    var postList: ArrayList<PostList>? = arrayListOf()
 ) : Parcelable {
     constructor() : this(Information(), arrayListOf())
 }
 @Parcelize
 data class Information(
-    @SerializedName("ID")
-    val ID: Int? = null,
-    @SerializedName("Password")
-    val Password: String? = null,
-    @SerializedName("UserName")
-    val UserName: String? = null
+    @SerializedName("id")
+    val id: Int? = null,
+    @SerializedName("password")
+    val password: String? = null,
+    @SerializedName("userName")
+    val userName: String? = null
 ) : Parcelable
 
 @Parcelize
 data class PostList(
-    @SerializedName("Description")
-    val Description: String? = null,
-    @SerializedName("ID")
-    val ID: Int? = null,
-    @SerializedName("URL")
-    val URL: String? = null
+    @SerializedName("description")
+    val description: String? = null,
+    @SerializedName("id")
+    val id: Int? = null,
+    @SerializedName("url")
+    val url: String? = null
 ) : Parcelable

@@ -137,17 +137,22 @@ class LoginActivity : ComponentActivity() {
     }
 
     fun loginControl(username: String, password: String, context: Context) {
+        var i = 0
         if (username.isNotEmpty() && password.isNotEmpty()) {
             for (user in data?.Users!!) {
-                if (user.Information?.UserName.equals(username)) {
-                    if (user.Information?.Password.equals(password)) {
+                i++
+                if (user.information?.userName.equals(username)) {
+                    if (user.information?.password.equals(password)) {
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        val bundle= Bundle()
+                        bundle.putParcelable("user" , user)
+                        intent.putExtras(bundle)
                         startActivity(intent)
                         this.finishAffinity()
                     } else {
                         Toast.makeText(context, "Sifre yanlis", Toast.LENGTH_SHORT).show()
                     }
-                } else {
+                } else if (data!!.Users?.size == i ) {
                     Toast.makeText(context, "Kullanici bulunamadi", Toast.LENGTH_SHORT).show()
                 }
             }

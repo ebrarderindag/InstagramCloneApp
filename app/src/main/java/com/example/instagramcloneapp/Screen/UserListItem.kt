@@ -1,4 +1,5 @@
 /*
+
 package com.example.instagramcloneapp.Screen
 
 import android.annotation.SuppressLint
@@ -67,7 +68,7 @@ fun UserListItem(user: User){
 @Composable
 private fun UserImage(user: User){
     Image(
-        painter = painterResource(id = user.information.Id), //id = user.ImageId
+        painter = painterResource(id =  user.ImageId), //id = user.ImageId
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier
@@ -75,4 +76,5 @@ private fun UserImage(user: User){
             .size(300.dp)
             .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
     )
-}*/
+}
+*/

@@ -47,14 +47,11 @@ import com.google.firebase.database.FirebaseDatabase
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         val dataUsers = intent?.extras?.getParcelableArrayCompat("data", Users::class.java)
         println("Data: " + dataUsers)
 
         setContent {
             SignUpContent(dataUsers)
-
         }
     }
 }
@@ -63,7 +60,6 @@ class SignUpActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpContent(dataUsers: ArrayList<Users>?) {
-
     Column(
         modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 20.dp, top = 200.dp),
         verticalArrangement = Arrangement.Center,
@@ -100,7 +96,7 @@ fun SignUpContent(dataUsers: ArrayList<Users>?) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    signUpControl(
+                    isClicked = signUpControl(
                         username.value.text,
                         password.value.text,
                         password2.value.text,
@@ -122,21 +118,21 @@ fun SignUpContent(dataUsers: ArrayList<Users>?) {
     }
 }
 
-fun signUpControl(
+fun signUpControl (
     username: String,
     password: String,
     password2: String,
     dataUsers: ArrayList<Users>?,
     context: Context
-) {
+):Boolean {
 
 
-
+    var control =false
     if (username.isNotEmpty() && password.isNotEmpty() && password2.isNotEmpty()) {
-        if (!password.equals(password2)) {
+        if (password.equals(password2)) {
             for (data in dataUsers!!) {
-                if (!username.equals(data.Information?.UserName)) {
-                    writeData(username, password, context)
+                if (!username.equals(data.information?.userName)) {
+                   control = writeData(username, password)
 
                 }else {
                     Toast.makeText(context, "Bu kullanıcı adı kullanılamıyor.", Toast.LENGTH_SHORT).show()
@@ -149,22 +145,20 @@ fun signUpControl(
     } else {
         Toast.makeText(context, "Lutfen bilgilerinizi giriniz.", Toast.LENGTH_SHORT).show()
     }
-
+    return control
 }
 
-fun writeData(username: String, password: String, context : Context) {
+fun writeData(username: String, password: String, ) : Boolean {
     lateinit var database : DatabaseReference
-    var isClicked = false
-
     database = FirebaseDatabase.getInstance().getReference("Users")
-    val info = Information(ID = 2, Password = password, UserName = username)
+
+    val info = Information(id = 2, password = password, userName = username)
     val postList = ArrayList<PostList>()
-    postList.add(PostList(ID = null, Description = "", URL = ""))
+    postList.add(PostList(id = 0, description = "", url = ""))
 
     val user = Users(info,postList)
-    database.setValue(user).addOnSuccessListener(){
-        //Toast.makeText(context, "Kayıt oluşturuldu.", Toast.LENGTH_SHORT).show()
+    database.child("1").setValue(user).addOnSuccessListener(){
 
     }
-
+    return true
 }
