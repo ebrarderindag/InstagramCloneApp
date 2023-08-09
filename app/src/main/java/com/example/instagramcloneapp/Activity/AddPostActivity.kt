@@ -15,7 +15,6 @@ class AddPostActivity : ComponentActivity() {
         }
     }
 }
-
 fun AddPostContent(){
 
 

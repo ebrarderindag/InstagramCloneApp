@@ -31,8 +31,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.instagramcloneapp.Data.DataModel
-import com.example.instagramcloneapp.Data.Users
+import com.example.instagramcloneapp.data.DataModel
+import com.example.instagramcloneapp.data.Users
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

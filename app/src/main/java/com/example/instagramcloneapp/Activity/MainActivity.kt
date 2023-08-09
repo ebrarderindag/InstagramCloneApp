@@ -11,13 +11,19 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -41,18 +47,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.example.instagramcloneapp.Data.PostList
-import com.example.instagramcloneapp.Data.Users
+import com.example.instagramcloneapp.data.PostItem
+import com.example.instagramcloneapp.data.Users
 import com.example.instagramcloneapp.Extensions.getParcelableCompat
 import com.example.instagramcloneapp.R
 import com.example.instagramcloneapp.ui.theme.InstagramCloneAppTheme
@@ -72,15 +76,32 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Column {
                         OptionMenu()
-                        for (index in user?.postList!!) {
-                            UserListItem(index)
+                        LazyColumn(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentPadding = PaddingValues(16.dp)
+                        ) {
+                            item {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .wrapContentHeight(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {}
+                            }
+                            user?.postList?.let {
+                                items(1) {
+                                    for (index in user?.postList!!) {
+                                        UserListItem(index)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 
     @Preview
     @OptIn(ExperimentalMaterial3Api::class)
@@ -100,7 +121,6 @@ class MainActivity : ComponentActivity() {
                         contentDescription = "More"
                     )
                 }
-
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
@@ -125,12 +145,10 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-
     @SuppressLint("UnrememberedMutableState")
     @Composable
-    fun UserListItem(index: PostList) {
+    fun UserListItem(index: PostItem) {
         val context = LocalContext.current
-
         Card(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -139,6 +157,10 @@ class MainActivity : ComponentActivity() {
             Row(Modifier
                 .clickable {
                     val intent = Intent(context, ImageDetailActivity()::class.java)
+                    val bundle = Bundle()
+                    bundle.putParcelable("user", user)
+                    bundle.putParcelable("image_index", index)
+                    intent.putExtras(bundle)
                     context.startActivity(intent)
                 }
                 .align(Alignment.CenterHorizontally)) {
@@ -172,7 +194,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun UserImage(index: PostList) {
+    private fun UserImage(index: PostItem) {
 
         val image =
             loadPicture(index.url.toString(), defaultImage = R.drawable.nonepic).value
@@ -181,24 +203,16 @@ class MainActivity : ComponentActivity() {
                 bitmap = img.asImageBitmap(),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(170.dp)
-                    .fillMaxSize()
-                    .padding(10.dp)
-                    .shadow(16.dp, CircleShape, true),
+
+                    .fillMaxWidth()
+                    .padding(20.dp)
+                    .size(300.dp)
+
+                    .clip(RoundedCornerShape(corner = CornerSize(16.dp))),
+
                 contentScale = ContentScale.Crop
             )
         }
-/*        index.id?.let { painterResource(id = it) }?.let {
-            Image(
-                painter = it,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(20.dp)
-                    .size(300.dp)
-                    .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
-            )
-        }*/
     }
 
     @Composable
@@ -208,7 +222,7 @@ class MainActivity : ComponentActivity() {
         Glide.with(LocalContext.current)
             .asBitmap()
             .load(defaultImage)
-            .into(object: CustomTarget<Bitmap>(){
+            .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
@@ -217,7 +231,6 @@ class MainActivity : ComponentActivity() {
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-
                 }
             })
 
@@ -225,7 +238,7 @@ class MainActivity : ComponentActivity() {
             .asBitmap()
             .load(url)
             .into(object : CustomTarget<Bitmap>() {
-                override fun onLoadCleared(placeholder: Drawable?) { }
+                override fun onLoadCleared(placeholder: Drawable?) {}
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?

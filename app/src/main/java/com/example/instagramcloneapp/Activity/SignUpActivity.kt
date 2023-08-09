@@ -2,12 +2,10 @@ package com.example.instagramcloneapp.Activity
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,9 +34,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramcloneapp.Component.AlertDialog
-import com.example.instagramcloneapp.Data.Information
-import com.example.instagramcloneapp.Data.PostList
-import com.example.instagramcloneapp.Data.Users
+import com.example.instagramcloneapp.data.Information
+import com.example.instagramcloneapp.data.PostItem
+import com.example.instagramcloneapp.data.Users
 import com.example.instagramcloneapp.Extensions.getParcelableArrayCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -153,8 +151,8 @@ fun writeData(username: String, password: String, ) : Boolean {
     database = FirebaseDatabase.getInstance().getReference("Users")
 
     val info = Information(id = 2, password = password, userName = username)
-    val postList = ArrayList<PostList>()
-    postList.add(PostList(id = 0, description = "", url = ""))
+    val postList = ArrayList<PostItem>()
+    postList.add(PostItem(id = 0, description = "", url = ""))
 
     val user = Users(info,postList)
     database.child("1").setValue(user).addOnSuccessListener(){
