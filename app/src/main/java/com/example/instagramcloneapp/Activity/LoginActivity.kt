@@ -49,8 +49,6 @@ class LoginActivity : ComponentActivity() {
         setContent {
             readData()
             LoginPageContent()
-
-
         }
     }
 
@@ -95,7 +93,6 @@ class LoginActivity : ComponentActivity() {
                     Text(text = "Login")
                 }
             }
-
             Spacer(modifier = Modifier.height(10.dp))
             Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                 Button(
@@ -136,7 +133,7 @@ class LoginActivity : ComponentActivity() {
 
     }
 
-    fun loginControl(username: String, password: String, context: Context) {
+    private fun loginControl(username: String, password: String, context: Context) {
         var i = 0
         if (username.isNotEmpty() && password.isNotEmpty()) {
             for (user in data?.Users!!) {

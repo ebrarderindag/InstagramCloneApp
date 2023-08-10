@@ -21,9 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -129,6 +126,9 @@ class MainActivity : ComponentActivity() {
                         text = { Text("Add Post") },
                         onClick = {
                             val intent = Intent(context, AddPostActivity::class.java)
+                            val bundle = Bundle()
+                            bundle.putParcelable("user", user)
+                            intent.putExtras(bundle)
                             context.startActivity(intent)
                         }
                     )
@@ -159,7 +159,7 @@ class MainActivity : ComponentActivity() {
                     val intent = Intent(context, ImageDetailActivity()::class.java)
                     val bundle = Bundle()
                     bundle.putParcelable("user", user)
-                    bundle.putParcelable("image_index", index)
+                    bundle.putParcelable("post", index)
                     intent.putExtras(bundle)
                     context.startActivity(intent)
                 }
@@ -203,13 +203,10 @@ class MainActivity : ComponentActivity() {
                 bitmap = img.asImageBitmap(),
                 contentDescription = null,
                 modifier = Modifier
-
                     .fillMaxWidth()
                     .padding(20.dp)
                     .size(300.dp)
-
                     .clip(RoundedCornerShape(corner = CornerSize(16.dp))),
-
                 contentScale = ContentScale.Crop
             )
         }
@@ -229,7 +226,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     bitmapState.value = resource
                 }
-
                 override fun onLoadCleared(placeholder: Drawable?) {
                 }
             })

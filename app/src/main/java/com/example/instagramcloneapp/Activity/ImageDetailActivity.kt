@@ -1,6 +1,5 @@
 package com.example.instagramcloneapp.Activity
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -52,17 +51,18 @@ import com.example.instagramcloneapp.data.PostItem
 import com.example.instagramcloneapp.data.Users
 import com.example.instagramcloneapp.Extensions.getParcelableCompat
 import com.example.instagramcloneapp.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class ImageDetailActivity : ComponentActivity() {
     private var user: Users? = null
-    private var index: PostItem? = null
+    private var post: PostItem? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
         user = intent?.extras?.getParcelableCompat("user", Users::class.java)
-        index = intent?.extras?.getParcelableCompat("image_index", PostItem::class.java)
-        println("Data: $user")
-        println("Image Index: $index ")
+        post = intent?.extras?.getParcelableCompat("post", PostItem::class.java)
+
         setContent {
             Box(modifier = Modifier.fillMaxSize()) {
                 Column() {
@@ -94,14 +94,13 @@ class ImageDetailActivity : ComponentActivity() {
                     DropdownMenuItem(
                         text = { Text("Delete Post") },
                         onClick = {
-
+                            DeletePost()
                         }
                     )
                 }
             }
         )
     }
-
 
     @Composable
     fun ProfileScreen() {
@@ -127,7 +126,7 @@ class ImageDetailActivity : ComponentActivity() {
     private fun ProfileHeader(containerHeight: Dp) {
 
         val image =
-            loadPicture(index?.url.toString(), defaultImage = R.drawable.nonepic).value
+            loadPicture(post?.url.toString(), defaultImage = R.drawable.nonepic).value
         image?.let { img ->
             Image(
 
@@ -136,10 +135,6 @@ class ImageDetailActivity : ComponentActivity() {
                 modifier = Modifier
                     .heightIn(max = containerHeight / 2)
                     .fillMaxWidth(),
-                //.size(170.dp)
-                //.fillMaxSize()
-                //.padding(10.dp)
-
                 contentScale = ContentScale.Crop
             )
         }
@@ -185,7 +180,7 @@ class ImageDetailActivity : ComponentActivity() {
     private fun ProfileContent(containerHeight: Dp) {
         Column {
             Title()
-            index?.description?.let { ProfileProperty(value = it) }
+            post?.description?.let { ProfileProperty(value = it) }
             Spacer(modifier = Modifier.height((containerHeight - 320.dp).coerceAtLeast(0.dp)))
         }
     }
@@ -215,5 +210,9 @@ class ImageDetailActivity : ComponentActivity() {
                 overflow = TextOverflow.Visible
             )
         }
+    }
+    private fun DeletePost(){
+        var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        database.child(post!!.id.toString()).removeValue()
     }
 }
