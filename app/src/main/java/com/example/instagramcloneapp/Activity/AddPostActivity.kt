@@ -3,9 +3,11 @@ package com.example.instagramcloneapp.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -41,16 +43,25 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.example.instagramcloneapp.Extensions.getParcelableCompat
 import com.example.instagramcloneapp.R
+import com.example.instagramcloneapp.data.PostItem
 import com.example.instagramcloneapp.data.Users
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+
 
 class AddPostActivity : ComponentActivity() {
     private var user: Users? = null
+    private lateinit var storage : FirebaseStorage
+    private  var selectedImg: Uri? = null
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
         user = intent?.extras?.getParcelableCompat("user", Users::class.java)
+        storage = FirebaseStorage.getInstance()
+
         setContent() {
             Column {
             TopAppBar(title = { Text(text = "Instagram") })
@@ -69,10 +80,12 @@ class AddPostActivity : ComponentActivity() {
         ){
             Row(Modifier
                 .clickable {
+                    toGallery()
                     println("Tıklandı")
                 }
                 .align(Alignment.CenterHorizontally)) {
                 UserImage()
+
             }
             Row(
                 Modifier.padding(start = 30.dp)
@@ -114,11 +127,56 @@ class AddPostActivity : ComponentActivity() {
         }
     }
 
+    private fun toGallery() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.type = "Image/*"
+        startActivityForResult(intent, 1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null){
+            if (data.data != null){
+                selectedImg = data.data!!
+                uploadData()
+            }
+        }
+    }
+
+    private fun uploadData() {
+        val ref = storage.reference
+        selectedImg?.let {
+            ref.putFile(it).addOnCompleteListener{
+                if (it.isSuccessful){
+                    ref.downloadUrl.addOnSuccessListener{task ->
+                        uploadInfo(task.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun uploadInfo(imgURL: String) {
+        val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        var randomPostId = (0..10).random()
+        for (post in user?.postList!!){
+            if (post.id == randomPostId){
+                randomPostId = (0..10).random()
+            }
+        }
+        val postList = ArrayList<PostItem>()
+        postList.add(PostItem(id = randomPostId, description = "", url ="" ))
+
+        database.child(user!!.information?.id.toString()).child("postList").setValue(postList).addOnSuccessListener() {
+        }
+    }
+
+
     @Composable
     private fun UserImage() {
-
         val image =
-            loadPicture(defaultImage = R.drawable.nonepic).value
+            loadPicture(selectedImg.toString(), defaultImage = R.drawable.nonepic).value
         image?.let { img ->
             Image(
                 bitmap = img.asImageBitmap(),
@@ -133,7 +191,7 @@ class AddPostActivity : ComponentActivity() {
         }
     }
     @Composable
-    fun loadPicture( @DrawableRes defaultImage: Int): MutableState<Bitmap?> {
+    fun loadPicture(url: String?, @DrawableRes defaultImage: Int): MutableState<Bitmap?> {
         val bitmapState: MutableState<Bitmap?> = remember { mutableStateOf(null) }
 
         Glide.with(LocalContext.current)
@@ -150,10 +208,26 @@ class AddPostActivity : ComponentActivity() {
                 }
             })
 
+        if (url != null){
+            Glide.with(LocalContext.current)
+                .asBitmap()
+                .load(url)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onLoadCleared(placeholder: Drawable?) { }
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
+                    ) {
+                        bitmapState.value = resource
+                    }
+                })
+        }
+
 
 
         return bitmapState
     }
+
 }
 
 

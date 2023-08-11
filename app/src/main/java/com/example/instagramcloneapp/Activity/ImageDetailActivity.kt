@@ -47,10 +47,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.example.instagramcloneapp.data.PostItem
-import com.example.instagramcloneapp.data.Users
 import com.example.instagramcloneapp.Extensions.getParcelableCompat
 import com.example.instagramcloneapp.R
+import com.example.instagramcloneapp.data.PostItem
+import com.example.instagramcloneapp.data.Users
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
@@ -211,8 +211,11 @@ class ImageDetailActivity : ComponentActivity() {
             )
         }
     }
-    private fun DeletePost(){
+
+    private fun DeletePost() {
         var database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
         database.child(post!!.id.toString()).removeValue()
     }
+
+
 }
