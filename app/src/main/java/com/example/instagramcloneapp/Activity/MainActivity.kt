@@ -205,7 +205,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp)
-                    .size(300.dp)
+                    .size(350.dp)
                     .clip(RoundedCornerShape(corner = CornerSize(16.dp))),
                 contentScale = ContentScale.Crop
             )
